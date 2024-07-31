@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <Navbar className="border-b-2">
       <Link to="/" className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white">
-        <span className="px-2 pt-2 py-1 bg-gradient-to-r from-teal-600 via-lime-500 to-lime-400 rounded-lg text-white">Hima</span>
+        <span className="px-2 pt-2 py-1 bg-gradient-to-r from-teal-600 via-lime-500 to-lime-400 rounded-lg text-white">Hima'</span>
         Blog
       </Link>
       <form>
