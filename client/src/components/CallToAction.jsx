@@ -1,12 +1,11 @@
 import { Button } from "flowbite-react";
-import React from "react";
 
 const CallToAction = () => {
   return (
     <div className="flex flex-col sm:flex-row p-3 border border-lime-600 justify-center items-center rounded-tl-3xl rounded-br-3xl text-center">
       <div className="flex-1 justify-center flex flex-col">
-        <h2 className="text-2xl font-bold mb-2">Ingin lebih tau tentang himaraksi ?</h2>
-        <p className="text-gray-500 my-2">Ayo kunjungi sosial media himaraksi</p>
+        <h2 className="text-2xl font-bold mb-2 text-gray-300">Ingin lebih tau tentang himaraksi ?</h2>
+        <p className="text-gray-300 my-2">Ayo kunjungi sosial media himaraksi</p>
         <Button gradientDuoTone="tealToLime" className="rounded-tl-xl rounded-bl-none">
           <a href="https://www.instagram.com/himaraksi_utdi/" target="_blank" rel="noopener noreferrer">
             Social media himaraksi

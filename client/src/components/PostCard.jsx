@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 
-import React from "react";
-
 const PostCard = ({ post }) => {
   return (
     <div className="group relative w-full border h-[400px] overflow-hidden rounded-lg sm:w-[430px] border-teal-500 hover:border-2 transition-all">
