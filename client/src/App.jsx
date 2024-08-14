@@ -14,6 +14,14 @@ import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
+import DashSidebar from "./components/DashSidebar";
+
+const Layout = ({ children }) => (
+  <div className="flex">
+    <DashSidebar />
+    <div className="flex-1">{children}</div>
+  </div>
+);
 
 const App = () => {
   return (
@@ -23,15 +31,29 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
-        <Route path="sign-In" element={<SignIn />} />
-        <Route path="sign-Up" element={<SignUp />} />
+        <Route path="sign-in" element={<SignIn />} />
+        <Route path="sign-up" element={<SignUp />} />
         <Route path="search" element={<Search />} />
         <Route element={<PrivateRoute />}>
           <Route path="dashboard" element={<Dashboard />} />
         </Route>
         <Route element={<OnlyAdminPrivateRoute />}>
-          <Route path="create-post" element={<CreatePost />} />
-          <Route path="update-post/:postId" element={<UpdatePost />} />
+          <Route
+            path="create-post"
+            element={
+              <Layout>
+                <CreatePost />
+              </Layout>
+            }
+          />
+          <Route
+            path="update-post/:postId"
+            element={
+              <Layout>
+                <UpdatePost />
+              </Layout>
+            }
+          />
         </Route>
         <Route path="project" element={<Project />} />
         <Route path="/post/:postSlug" element={<PostPage />} />

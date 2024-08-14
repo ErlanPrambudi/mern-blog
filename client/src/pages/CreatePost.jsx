@@ -87,12 +87,9 @@ const CreatePost = () => {
 
           <Select onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
             <option value="uncategorized">Select a category</option>
-            <option value="himatek">Himatek</option>
-            <option value="himasia">Himasia</option>
-            <option value="himadigi">Himadigi</option>
-            <option value="himaraksi">Himaraksi</option>
-            <option value="himaforka">Himaforka</option>
-            <option value="himatekom">Himatekom</option>
+            <option value="artikel">Artikel</option>
+            <option value="berita">Berita</option>
+            <option value="kegiatan">Kegiatan</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-lime-500 border-dotted p-3">

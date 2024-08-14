@@ -24,7 +24,7 @@ export default function Search() {
     const searchTermFromUrl = urlParams.get("searchTerm");
     const sortFromUrl = urlParams.get("sort");
     const categoryFromUrl = urlParams.get("category");
-    if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
+    if (searchTermFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,
         searchTerm: searchTermFromUrl,
@@ -119,15 +119,12 @@ export default function Search() {
             <label className="font-semibold">Category:</label>
             <Select onChange={handleChange} value={sidebarData.category} id="category">
               <option value="uncategorized">Uncategorized</option>
-              <option value="himatek">Himatek</option>
-              <option value="himsia">Himasia</option>
-              <option value="himadigi">Himadigi</option>
-              <option value="himaraksi">Himaraksi</option>
-              <option value="himaforka">Himaforka</option>
-              <option value="himatekom">Himatekom</option>
+              <option value="artikel">Artikel</option>
+              <option value="berita">Berita</option>
+              <option value="kegiatan">Kegiatan</option>
             </Select>
           </div>
-          <Button type="submit" outline gradientDuoTone="tealToLime">
+          <Button type="submit" outline gradientDuoTone="purpleToPink">
             Apply Filters
           </Button>
         </form>

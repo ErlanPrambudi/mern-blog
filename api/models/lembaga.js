@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const postSchema = new mongoose.Schema(
+const lembagaSchema = new mongoose.Schema(
     {
         idLembaga: {
             type: String,
@@ -38,5 +38,5 @@ const postSchema = new mongoose.Schema(
     }, { timestamps: true }
 );
 
-const Lembaga = mongoose.model('Lembaga', postSchema);
+const Lembaga = mongoose.model('Lembaga', lembagaSchema);
 export default Lembaga;
