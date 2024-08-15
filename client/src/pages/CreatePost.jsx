@@ -117,7 +117,7 @@ const CreatePost = () => {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit" gradientDuoTone="tealToLime">
+        <Button type="submit" gradientDuoTone="tealToLime" className=" mt-2 sm:mt-2">
           Publish
         </Button>
         {publishError && (

@@ -110,13 +110,9 @@ export default function UpdatePost() {
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput type="text" placeholder="Title" required id="title" className="flex-1" onChange={(e) => setFormData({ ...formData, title: e.target.value })} value={formData.title} />
           <Select onChange={(e) => setFormData({ ...formData, category: e.target.value })} value={formData.category}>
-            <option value="himasi">Himasi</option>
-            <option value="himatek">Himatek</option>
-            <option value="himasia">Himasia</option>
-            <option value="himadigi">Himadigi</option>
-            <option value="himaraksi">Himaraksi</option>
-            <option value="himaforka">Himaforka</option>
-            <option value="himatekkom">Himatekkom</option>
+            <option value="artikel">Artikel</option>
+            <option value="berita">Berita</option>
+            <option value="kegiatan">Kegiatan</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
@@ -143,7 +139,7 @@ export default function UpdatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button type="submit" gradientDuoTone="purpleToPink">
+        <Button type="submit" gradientDuoTone="tealToLime">
           Update post
         </Button>
         {publishError && (

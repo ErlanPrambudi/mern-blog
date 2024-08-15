@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import Project from "./pages/Project";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -15,6 +14,10 @@ import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
 import DashSidebar from "./components/DashSidebar";
+import CreateManagement from "./pages/CreateManagement";
+import UpdateManagement from "./pages/UpdateManagement";
+import ManagementPage from "./pages/ManagementPage";
+import Organization from "./pages/Organization";
 
 const Layout = ({ children }) => (
   <div className="flex">
@@ -31,32 +34,51 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
+        <Route path="organization" element={<Organization />} />
         <Route path="sign-in" element={<SignIn />} />
         <Route path="sign-up" element={<SignUp />} />
         <Route path="search" element={<Search />} />
         <Route element={<PrivateRoute />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route element={<OnlyAdminPrivateRoute />}>
+            <Route
+              path="create-post"
+              element={
+                <Layout>
+                  <CreatePost />
+                </Layout>
+              }
+            />
+
+            <Route
+              path="update-post/:postId"
+              element={
+                <Layout>
+                  <UpdatePost />
+                </Layout>
+              }
+            />
+            <Route
+              path="create-management"
+              element={
+                <Layout>
+                  <CreateManagement />
+                </Layout>
+              }
+            />
+            <Route
+              path="update-management/:managementId"
+              element={
+                <Layout>
+                  <UpdateManagement />
+                </Layout>
+              }
+            />
+          </Route>
         </Route>
-        <Route element={<OnlyAdminPrivateRoute />}>
-          <Route
-            path="create-post"
-            element={
-              <Layout>
-                <CreatePost />
-              </Layout>
-            }
-          />
-          <Route
-            path="update-post/:postId"
-            element={
-              <Layout>
-                <UpdatePost />
-              </Layout>
-            }
-          />
-        </Route>
-        <Route path="project" element={<Project />} />
+
         <Route path="/post/:postSlug" element={<PostPage />} />
+        <Route path="/management/:managementSlug" element={<ManagementPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

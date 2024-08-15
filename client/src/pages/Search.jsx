@@ -124,7 +124,7 @@ export default function Search() {
               <option value="kegiatan">Kegiatan</option>
             </Select>
           </div>
-          <Button type="submit" outline gradientDuoTone="purpleToPink">
+          <Button type="submit" outline gradientDuoTone="tealToLime">
             Apply Filters
           </Button>
         </form>

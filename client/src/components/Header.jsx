@@ -93,7 +93,9 @@ export default function Header() {
         <Navbar.Link active={path === "/about"} as={"div"}>
           <Link to="/about">About</Link>
         </Navbar.Link>
-        <Navbar.Link active={path === "/projects"} as={"div"}></Navbar.Link>
+        <Navbar.Link active={path === "/organization"} as={"div"}>
+          <Link to="/organization">Organization</Link>
+        </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );

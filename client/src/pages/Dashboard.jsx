@@ -6,6 +6,8 @@ import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
 import DashComment from "../components/DashComment";
 import DashboardComp from "../components/DashboardComp";
+import CreatePost from "./CreatePost";
+import CreateManagement from "./CreateManagement";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -34,6 +36,22 @@ const Dashboard = () => {
       {tab === "comments" && <DashComment />}
       {/* dashboard component */}
       {tab === "dash" && <DashboardComp />}
+      {/* create post */}
+      {tab === "create-post" && (
+        <div className="flex-1 p-6 md:p-8 bg-gray-50 dark:bg-gray-900">
+          <div className="scale-100">
+            <CreatePost />
+          </div>
+        </div>
+      )}
+      {/* create management */}
+      {tab === "create-management" && (
+        <div className="flex-1 p-6 md:p-8 bg-gray-50 dark:bg-gray-900">
+          <div className="scale-100">
+            <CreateManagement />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

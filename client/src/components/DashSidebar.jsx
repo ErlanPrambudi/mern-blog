@@ -1,6 +1,7 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiAnnotation, HiArrowSmRight, HiChartPie, HiDocumentText, HiOutlineUserGroup, HiUser } from "react-icons/hi";
+import { IoIosCreate } from "react-icons/io";
 import { IoMdCreate } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -62,9 +63,14 @@ const DashSidebar = () => {
                   All Posts
                 </Sidebar.Item>
               </Link>
-              <Link to="/create-post">
-                <Sidebar.Item t icon={IoMdCreate} as="div">
+              <Link to="/dashboard?tab=create-post">
+                <Sidebar.Item active={tab === "create-post"} icon={IoMdCreate} as="div">
                   Create a post
+                </Sidebar.Item>
+              </Link>
+              <Link to="/dashboard?tab=create-management">
+                <Sidebar.Item active={tab === "create-management"} icon={IoIosCreate} as="div">
+                  Create management
                 </Sidebar.Item>
               </Link>
             </>
