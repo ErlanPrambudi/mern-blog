@@ -68,7 +68,7 @@ const PostPage = () => {
       </Link>
       <div className="mt-10 mx-auto w-full max-w-2xl">
         <img src={post && post.image} alt={post && post.title} className="mt-10 p-3 h-[750px] w-full object-contain" />
-        <div className=" flex justify-between p-t border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
+        <div className="flex justify-between items-center border-b border-slate-500 mx-auto w-full max-w-2xl text-xs p-2">
           <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
           <span className="italic p-10">{post && (post.content.length / 1000).toFixed(0)} mins read</span>
         </div>
