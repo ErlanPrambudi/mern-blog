@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import CreateUser from "../pages/CreateUser";
+import { Link } from "react-router-dom";
 
 const DashUsers = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -108,15 +109,9 @@ const DashUsers = () => {
                       </span>
                     </Table.Cell>
                     <Table.Cell>
-                      <span
-                        onClick={() => {
-                          setShowModal(true);
-                          setUserIdToDelete(user._id);
-                        }}
-                        className="font-md text-red-500 hover:underline cursor-pointer"
-                      >
-                        edit
-                      </span>
+                      <Link className="text-teal-500 hover:underline" to={`/update-user/${user._id}`}>
+                        <span>Edit</span>
+                      </Link>
                     </Table.Cell>
                   </Table.Row>
                 </Table.Body>

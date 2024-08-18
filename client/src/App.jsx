@@ -19,6 +19,7 @@ import UpdateOrganization from "./pages/UpdateOrganization";
 import OrganizationPage from "./pages/OrganizationPage";
 import Organization from "./pages/Organization";
 import CreateUser from "./pages/CreateUser";
+import UpdateUser from "./pages/UpdateUser";
 
 const Layout = ({ children }) => (
   <div className="flex">
@@ -56,6 +57,14 @@ const App = () => {
               element={
                 <Layout>
                   <UpdatePost />
+                </Layout>
+              }
+            />
+            <Route
+              path="update-user/:userId"
+              element={
+                <Layout>
+                  <UpdateUser />
                 </Layout>
               }
             />
