@@ -17,7 +17,7 @@ const DashUsers = () => {
       try {
         const res = await fetch(`/api/user/getusers`);
         const data = await res.json();
-        console.log(res);
+        console.log(data);
         if (res.ok) {
           setUsers(data.users);
           if (data.users.length < 9) {
@@ -95,7 +95,7 @@ const DashUsers = () => {
                     <Table.Cell>{user.isAdmin ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}</Table.Cell>
 
                     <Table.Cell>{user.role}</Table.Cell>
-                    <Table.Cell>{user.lembaga}</Table.Cell>
+                    <Table.Cell>{user.lembaga?.namaLembaga}</Table.Cell>
                     <Table.Cell>
                       <span
                         onClick={() => {
