@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import DashOrganization from "./DashOrganization";
 
 const DashPosts = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -60,11 +61,14 @@ const DashPosts = () => {
       } else {
         setUserPosts((prev) => prev.filter((post) => post._id !== postIdToDelete));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
   };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
+      <h1 className="text-center text-3xl my-7 font-semibold">Posts</h1>
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
@@ -143,6 +147,9 @@ const DashPosts = () => {
           </div>
         </Modal.Body>
       </Modal>
+
+      <h1 className="text-center text-3xl my-7 font-semibold">Organization</h1>
+      <DashOrganization />
     </div>
   );
 };

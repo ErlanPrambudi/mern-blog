@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const managementSchema = new mongoose.Schema(
+const organizationSchema = new mongoose.Schema(
     {
         userId: {
             type: String,
@@ -8,32 +8,33 @@ const managementSchema = new mongoose.Schema(
         },
         namaLembaga: {
             type: String,
-            required: true,
+            default: " ",
             unique: true,
+
         },
         ketua: {
             type: String,
-            required: true,
+            required: false,
             unique: false,
         },
         wakil: {
             type: String,
-            required: true,
+            required: false,
             unique: false,
         },
         sekretaris: {
             type: String,
-            required: true,
+            required: false,
             unique: false,
         },
         bendahara: {
             type: String,
-            required: true,
+            required: false,
             unique: false,
         },
         dpo: {
             type: String,
-            required: true,
+            required: false,
             unique: false,
         },
         image: {
@@ -53,5 +54,5 @@ const managementSchema = new mongoose.Schema(
     }, { timestamps: true }
 );
 
-const Management = mongoose.model('management', managementSchema);
-export default Management;
+const Organization = mongoose.model('Organization', organizationSchema);
+export default Organization;

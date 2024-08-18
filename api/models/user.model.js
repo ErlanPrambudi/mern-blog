@@ -1,9 +1,9 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        require: true,
+        required: true,
         unique: true,
     },
     email: {
@@ -23,7 +23,17 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-}, { timestamps: true }
-)
-const User = mongoose.model('User', userSchema)
-export default User
+    role: {
+        type: String,
+        enum: ['user', 'pengurus', 'admin'],
+        default: 'user',
+    },
+    lembaga: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organization',
+        required: function () { return this.role === 'pengurus'; }
+    }
+}, { timestamps: true });
+
+const User = mongoose.model('User', userSchema);
+export default User;

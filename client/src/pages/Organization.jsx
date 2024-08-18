@@ -1,42 +1,42 @@
 import { useEffect, useState } from "react";
-import ManagementCard from "../components/ManagementCard";
+import OrganizationCard from "../components/OrganizationCard";
 import { useSelector } from "react-redux";
 
 const Organization = () => {
-  const [managements, setManagements] = useState([]); // Gabungkan recentManagement dan userManagement
+  const [organizations, setOrganizations] = useState([]); // Gabungkan recentorganization dan userorganization
   const { currentUser } = useSelector((state) => state.user);
   const [showMore, setShowMore] = useState(true);
 
-  // Fetch initial management data on component mount
+  // Fetch initial organization data on component mount
   useEffect(() => {
     try {
-      const fetchManagements = async () => {
-        const res = await fetch(`/api/management/getmanagements`);
+      const fetchOrganizations = async () => {
+        const res = await fetch(`/api/organization/getorganizations`);
         const data = await res.json();
         if (res.ok) {
-          setManagements(data.managements);
+          setOrganizations(data.organizations);
           // Hide "Show more" button if fewer than 9 items are loaded initially
-          if (data.managements.length < 9) {
+          if (data.organizations.length < 9) {
             setShowMore(false);
           }
         }
       };
-      fetchManagements();
+      fetchOrganizations();
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-  // Fetch more management data when "Show more" is clicked
+  // Fetch more organization data when "Show more" is clicked
   const handleShowMore = async () => {
-    const startIndex = managements.length;
+    const startIndex = organizations.length;
     try {
-      const res = await fetch(`/api/management/getmanagements?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const res = await fetch(`/api/organization/getorganizations?userId=${currentUser._id}&startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
-        setManagements((prev) => [...prev, ...data.managements]);
+        setOrganizations((prev) => [...prev, ...data.organizations]);
         // Hide "Show more" if the returned data is less than 9
-        if (data.managements.length < 9) {
+        if (data.organizations.length < 9) {
           setShowMore(false);
         }
       }
@@ -47,12 +47,12 @@ const Organization = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7">
-      {managements.length > 0 && (
+      {organizations.length > 0 && (
         <div className="flex flex-col gap-6">
           <h2 className="text-2xl font-semibold text-center">Recent Organization</h2>
           <div className="flex flex-wrap gap-5 mt-5 justify-center">
-            {managements.map((management) => (
-              <ManagementCard key={management._id} management={management} />
+            {organizations.map((organization) => (
+              <OrganizationCard key={organization._id} organization={organization} />
             ))}
           </div>
         </div>

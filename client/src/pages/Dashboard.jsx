@@ -7,7 +7,8 @@ import DashUsers from "../components/DashUsers";
 import DashComment from "../components/DashComment";
 import DashboardComp from "../components/DashboardComp";
 import CreatePost from "./CreatePost";
-import CreateManagement from "./CreateManagement";
+import CreateOrganization from "./CreateOrganization";
+import CreateUser from "./CreateUser";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -44,11 +45,19 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-      {/* create management */}
-      {tab === "create-management" && (
+      {/* create organization */}
+      {tab === "create-organization" && (
         <div className="flex-1 p-6 md:p-8 bg-gray-50 dark:bg-gray-900">
           <div className="scale-100">
-            <CreateManagement />
+            <CreateOrganization />
+          </div>
+        </div>
+      )}
+      {/* create user */}
+      {tab === "create-user" && (
+        <div className="flex-1 p-6 md:p-8 bg-gray-50 dark:bg-gray-900">
+          <div className="scale-100">
+            <CreateUser />
           </div>
         </div>
       )}

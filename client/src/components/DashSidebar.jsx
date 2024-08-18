@@ -68,9 +68,9 @@ const DashSidebar = () => {
                   Create a post
                 </Sidebar.Item>
               </Link>
-              <Link to="/dashboard?tab=create-management">
-                <Sidebar.Item active={tab === "create-management"} icon={IoIosCreate} as="div">
-                  Create management
+              <Link to="/dashboard?tab=create-organization">
+                <Sidebar.Item active={tab === "create-organization"} icon={IoIosCreate} as="div">
+                  Create organization
                 </Sidebar.Item>
               </Link>
             </>

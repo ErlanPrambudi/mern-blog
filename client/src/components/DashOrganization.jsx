@@ -4,22 +4,22 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-const DashManagement = () => {
+const DashOrganization = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [userManagement, setUserManagement] = useState([]);
+  const [userOrganization, setUserOrganization] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [managementIdToDelete, setManagementIdToDelete] = useState("");
-  console.log(userManagement);
+  const [organizationIdToDelete, setOrganizationIdToDelete] = useState("");
+  console.log(userOrganization);
   useEffect(() => {
-    const fetchManagement = async () => {
+    const fetchOrganization = async () => {
       try {
-        const res = await fetch(`/api/management/getmanagements?userId=${currentUser._id}`);
+        const res = await fetch(`/api/organization/getorganizations?userId=${currentUser._id}`);
         const data = await res.json();
 
         if (res.ok) {
-          setUserManagement(data.managements);
-          if (data.managements.length < 9) {
+          setUserOrganization(data.organizations);
+          if (data.organizations.length < 9) {
             setShowMore(false);
           }
         }
@@ -28,18 +28,18 @@ const DashManagement = () => {
       }
     };
     if (currentUser.isAdmin) {
-      fetchManagement();
+      fetchOrganization();
     }
   }, [currentUser._id]);
 
   const handleShowMore = async () => {
-    const startIndex = userManagement.length;
+    const startIndex = userOrganization.length;
     try {
-      const res = await fetch(`/api/managements/getmanagements?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const res = await fetch(`/api/organizations/getorganizations?userId=${currentUser._id}&startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
-        setUserManagement((prev) => [...prev, ...data.managements]);
-        if (data.managements.length < 9) {
+        setUserOrganization((prev) => [...prev, ...data.organizations]);
+        if (data.organizations.length < 9) {
           setShowMore(false);
         }
       }
@@ -48,47 +48,53 @@ const DashManagement = () => {
     }
   };
 
-  const handleDeleteManagement = async () => {
+  const handleDeleteOrganization = async () => {
     setShowModal(false);
     try {
-      const res = await fetch(`/api/management/deletemanagement/${managementIdToDelete}/${currentUser._id}`, {
+      const res = await fetch(`/api/organization/deleteorganization/${organizationIdToDelete}/${currentUser._id}`, {
         method: "DELETE",
       });
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
       } else {
-        setUserManagement((prev) => prev.filter((management) => management._id !== managementIdToDelete));
+        setUserOrganization((prev) => prev.filter((organization) => organization._id !== organizationIdToDelete));
       }
     } catch (error) {}
   };
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
-      {currentUser.isAdmin && userManagement.length > 0 ? (
+      {currentUser.isAdmin && userOrganization.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date Update</Table.HeadCell>
-              <Table.HeadCell>Managements image</Table.HeadCell>
+              <Table.HeadCell>Organization image</Table.HeadCell>
+              <Table.HeadCell>user id</Table.HeadCell>
               <Table.HeadCell>INSTITUTION NAME</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
               <Table.HeadCell>
                 <span>Edit</span>
               </Table.HeadCell>
             </Table.Head>
-            {userManagement.map((management) => (
+            {userOrganization.map((organization) => (
               <Table.Body className="divide-y">
                 <Table.Row className=" bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{new Date(management.updatedAt).toLocaleDateString()}</Table.Cell>
+                  <Table.Cell>{new Date(organization.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>
-                    <Link to={`/management/${management.slug}`}>
-                      <img src={management.image} alt={management.namaLembaga} className="w-20 h-10 object-cover bg-gray-500" />
+                    <Link to={`/organization/${organization.slug}`}>
+                      <img src={organization.image} alt={organization.namaLembaga} className="w-20 h-10 object-cover bg-gray-500" />
                     </Link>
                   </Table.Cell>
                   <Table.Cell>
-                    <Link className="font-medium text-gray-900 dark:text-white" to={`/management/${management.slug}`}>
-                      {management.namaLembaga}
+                    <Link className="font-medium text-gray-900 dark:text-white" to={`/organization/${organization.slug}`}>
+                      {organization.userId}
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Link className="font-medium text-gray-900 dark:text-white" to={`/organization/${organization.slug}`}>
+                      {organization.namaLembaga}
                     </Link>
                   </Table.Cell>
 
@@ -96,7 +102,7 @@ const DashManagement = () => {
                     <span
                       onClick={() => {
                         setShowModal(true);
-                        setManagementIdToDelete(management._id);
+                        setOrganizationIdToDelete(organization._id);
                       }}
                       className="font-md text-red-500 hover:underline cursor-pointer"
                     >
@@ -105,7 +111,7 @@ const DashManagement = () => {
                   </Table.Cell>
 
                   <Table.Cell>
-                    <Link className="text-teal-500 hover:underline" to={`/update-management/${management._id}`}>
+                    <Link className="text-teal-500 hover:underline" to={`/update-organization/${organization._id}`}>
                       <span>Edit</span>
                     </Link>
                   </Table.Cell>
@@ -120,16 +126,16 @@ const DashManagement = () => {
           )}
         </>
       ) : (
-        <p>You have no management yet!</p>
+        <p>You have no organization yet!</p>
       )}
       <Modal show={showModal} onClose={() => setShowModal(false)} popup size="md">
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
-            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to deleted this management ?</h3>
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to deleted this organization ?</h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleDeleteManagement}>
+              <Button color="failure" onClick={handleDeleteOrganization}>
                 Yes, I'am sure
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
@@ -143,4 +149,4 @@ const DashManagement = () => {
   );
 };
 
-export default DashManagement;
+export default DashOrganization;

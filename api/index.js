@@ -5,7 +5,7 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
-import managementRoutes from './routes/management.route.js';
+import organizationRoutes from './routes/organization.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
@@ -35,7 +35,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
-app.use("/api/management", managementRoutes);
+app.use("/api/organization", organizationRoutes);
 
 app.use(express.static(path.join(__dirname, '/client/dist')));
 

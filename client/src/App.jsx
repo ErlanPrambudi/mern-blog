@@ -14,10 +14,11 @@ import PostPage from "./pages/PostPage";
 import ScrollToTop from "./components/ScrollToTop";
 import Search from "./pages/Search";
 import DashSidebar from "./components/DashSidebar";
-import CreateManagement from "./pages/CreateManagement";
-import UpdateManagement from "./pages/UpdateManagement";
-import ManagementPage from "./pages/ManagementPage";
+import CreateOrganization from "./pages/CreateOrganization";
+import UpdateOrganization from "./pages/UpdateOrganization";
+import OrganizationPage from "./pages/OrganizationPage";
 import Organization from "./pages/Organization";
+import CreateUser from "./pages/CreateUser";
 
 const Layout = ({ children }) => (
   <div className="flex">
@@ -59,18 +60,26 @@ const App = () => {
               }
             />
             <Route
-              path="create-management"
+              path="create-organization"
               element={
                 <Layout>
-                  <CreateManagement />
+                  <CreateOrganization />
                 </Layout>
               }
             />
             <Route
-              path="update-management/:managementId"
+              path="create-user"
               element={
                 <Layout>
-                  <UpdateManagement />
+                  <CreateUser />
+                </Layout>
+              }
+            />
+            <Route
+              path="update-organization/:organizationId"
+              element={
+                <Layout>
+                  <UpdateOrganization />
                 </Layout>
               }
             />
@@ -78,7 +87,7 @@ const App = () => {
         </Route>
 
         <Route path="/post/:postSlug" element={<PostPage />} />
-        <Route path="/management/:managementSlug" element={<ManagementPage />} />
+        <Route path="/organization/:organizationSlug" element={<OrganizationPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

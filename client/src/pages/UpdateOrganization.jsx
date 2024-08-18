@@ -1,21 +1,45 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import DashManagement from "../components/DashManagement";
+import DashOrganization from "../components/DashOrganization";
+import { useSelector } from "react-redux";
 
-const CreateManagement = () => {
+const UpdateOrganization = () => {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
+  const { organizationId } = useParams();
+  const { currentUser } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      const fetchPost = async () => {
+        const res = await fetch(`/api/organization/getorganizations?organizationId=${organizationId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          setPublishError(data.message);
+          return;
+        }
+        if (res.ok) {
+          setPublishError(null);
+          setFormData(data.organizations[0]);
+          return;
+        }
+      };
+      fetchPost();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [organizationId]);
 
   const handleUploadImage = async () => {
     try {
@@ -56,8 +80,8 @@ const CreateManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/management/create", {
-        method: "POST",
+      const res = await fetch(`/api/organization/updateorganization/${formData._id}/${currentUser._id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -70,7 +94,7 @@ const CreateManagement = () => {
       }
       if (res.ok) {
         setPublishError(null);
-        navigate(`/management/${data.slug}`);
+        navigate(`/organization/${data.slug}`);
       }
     } catch (error) {
       setPublishError("something went wrong");
@@ -79,38 +103,38 @@ const CreateManagement = () => {
 
   return (
     <div className="p-3 mx-auto min-h-screen   ">
-      <h1 className="text-center text-3xl my-7 font-semibold">Create a management</h1>
+      <h1 className="text-center text-3xl my-7 font-semibold">Update a organization</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="space-y-4">
           <div className="flex flex-col gap-2 sm:flex-row justify-between items-center">
             <label className="font-bold w-full sm:w-1/4 text-left">Nama Lembaga</label>
             <label className="font-bold hidden sm:block">: </label>
-            <TextInput type="text" placeholder="Name of institution" required id="namaLembaga" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, namaLembaga: e.target.value })} />
+            <TextInput type="text" placeholder="Name of institution" required id="namaLembaga" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, namaLembaga: e.target.value })} value={formData.namaLembaga} />
           </div>
           <div className="flex flex-col gap-2 sm:flex-row justify-between items-center">
             <label className="font-bold w-full sm:w-1/4 text-left">Ketua</label>
             <label className="font-bold hidden sm:block">: </label>
-            <TextInput type="text" placeholder="Name of chairman" required id="ketua" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, ketua: e.target.value })} />
+            <TextInput type="text" placeholder="Name of chairman" required id="ketua" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, ketua: e.target.value })} value={formData.ketua} />
           </div>
           <div className="flex flex-col gap-2 sm:flex-row justify-between items-center">
             <label className="font-bold w-full sm:w-1/4 text-left">Wakil</label>
             <label className="font-bold hidden sm:block">: </label>
-            <TextInput type="text" placeholder="Name of vice-chairman" required id="wakil" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, wakil: e.target.value })} />
+            <TextInput type="text" placeholder="Name of vice-chairman" required id="wakil" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, wakil: e.target.value })} value={formData.wakil} />
           </div>
           <div className="flex flex-col gap-2 sm:flex-row justify-between items-center">
             <label className="font-bold w-full sm:w-1/4 text-left">Sekretaris</label>
             <label className="font-bold hidden sm:block">: </label>
-            <TextInput type="text" placeholder="Name of secretary" required id="sekretaris" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, sekretaris: e.target.value })} />
+            <TextInput type="text" placeholder="Name of secretary" required id="sekretaris" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, sekretaris: e.target.value })} value={formData.sekretaris} />
           </div>
           <div className="flex flex-col gap-2 sm:flex-row justify-between items-center">
             <label className="font-bold w-full sm:w-1/4 text-left">Bendahara</label>
             <label className="font-bold hidden sm:block">: </label>
-            <TextInput type="text" placeholder="Name of treasurer" required id="bendahara" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, bendahara: e.target.value })} />
+            <TextInput type="text" placeholder="Name of treasurer" required id="bendahara" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, bendahara: e.target.value })} value={formData.bendahara} />
           </div>
           <div className="flex flex-col gap-2 sm:flex-row justify-between items-center">
             <label className="font-bold w-full sm:w-1/4 text-left">DPO</label>
             <label className="font-bold hidden sm:block">: </label>
-            <TextInput type="text" placeholder="Name of DPO" required id="dpo" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, dpo: e.target.value })} />
+            <TextInput type="text" placeholder="Name of DPO" required id="dpo" className="flex-1 w-full" onChange={(e) => setFormData({ ...formData, dpo: e.target.value })} value={formData.dpo} />
           </div>
         </div>
 
@@ -131,6 +155,7 @@ const CreateManagement = () => {
 
         <ReactQuill
           theme="snow"
+          value={formData.content}
           placeholder="Visi Misi.... "
           className="h-72 mb-12"
           required
@@ -139,7 +164,7 @@ const CreateManagement = () => {
           }}
         />
         <Button type="submit" gradientDuoTone="tealToLime" className="mt-2 sm:mt-2">
-          Publish
+          Update
         </Button>
         {publishError && (
           <Alert className="mt-5" color="failure">
@@ -148,10 +173,10 @@ const CreateManagement = () => {
         )}
       </form>
       <div className="mt-4">
-        <DashManagement />
+        <DashOrganization />
       </div>
     </div>
   );
 };
 
-export default CreateManagement;
+export default UpdateOrganization;

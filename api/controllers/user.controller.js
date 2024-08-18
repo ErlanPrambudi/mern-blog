@@ -78,6 +78,10 @@ export const getUsers = async (req, res, next) => {
         const sortDirection = req.query.sort === "asc" ? 1 : -1
 
         const users = await User.find()
+            // .populate(
+            //     "lembaga",
+            //     "namaLembaga"
+            // )
             .sort({ createdAt: sortDirection })
             .skip(startIndex)
             .limit(limit)
@@ -121,3 +125,40 @@ export const getUser = async (req, res, next) => {
         next(error)
     }
 }
+export const createUser = async (req, res, next) => {
+    try {
+        // Extract data from request body
+        const { username, email, password, role, lembaga, profilePicture } = req.body;
+
+        // Validate required fields
+        if (!username || !email || !password || !role) {
+            return next(errorHandler(400, 'Missing required fields'));
+        }
+
+        // Check if the user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return next(errorHandler(400, 'User already exists'));
+        }
+
+        // Create new user
+        const newUser = new User({
+            username,
+            email,
+            password, // Make sure to hash the password before saving in a real-world application
+            role,
+            lembaga,
+            profilePicture
+        });
+
+        // Save user to the database
+        await newUser.save();
+
+        // Respond with the created user
+        res.status(201).json(newUser);
+
+    } catch (error) {
+        next(error);
+    }
+};
+

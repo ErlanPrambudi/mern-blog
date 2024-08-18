@@ -56,7 +56,7 @@ export default function Header() {
         </Link>
       </div>
       <form onSubmit={handleSubmit}>
-        <TextInput type="text" placeholder="Search..." rightIcon={AiOutlineSearch} className="hidden lg:inline sm:2xl:" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <TextInput type="text" placeholder="Search..." rightIcon={AiOutlineSearch} className="hidden lg:inline sm:2xl" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
       </form>
       <Button className="w-12 h-10 lg:hidden" color="gray" pill>
         <AiOutlineSearch />
