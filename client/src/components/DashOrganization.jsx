@@ -11,26 +11,25 @@ const DashOrganization = () => {
   const [showModal, setShowModal] = useState(false);
   const [organizationIdToDelete, setOrganizationIdToDelete] = useState("");
   console.log(userOrganization);
-  useEffect(() => {
-    const fetchOrganization = async () => {
-      try {
-        const res = await fetch(`/api/organization/getorganizations?userId=${currentUser._id}`);
-        const data = await res.json();
 
-        if (res.ok) {
-          setUserOrganization(data.organizations);
-          if (data.organizations.length < 9) {
-            setShowMore(false);
-          }
+  const fetchOrganization = async () => {
+    try {
+      const res = await fetch(`/api/organization/getorganizations?userId=${currentUser._id}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        setUserOrganization(data.organizations);
+        if (data.organizations.length < 9) {
+          setShowMore(false);
         }
-      } catch (error) {
-        console.log(error);
       }
-    };
-    if (currentUser.isAdmin) {
-      fetchOrganization();
+    } catch (error) {
+      console.log(error);
     }
-  }, [currentUser._id]);
+  };
+  useEffect(() => {
+    fetchOrganization();
+  }, []);
 
   const handleShowMore = async () => {
     const startIndex = userOrganization.length;
@@ -65,7 +64,7 @@ const DashOrganization = () => {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
-      {currentUser.isAdmin && userOrganization.length > 0 ? (
+      {userOrganization.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>

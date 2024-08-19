@@ -16,10 +16,12 @@ import Search from "./pages/Search";
 import DashSidebar from "./components/DashSidebar";
 import CreateOrganization from "./pages/CreateOrganization";
 import UpdateOrganization from "./pages/UpdateOrganization";
+import UpdateUserOrganization from "./pages/UpdateUserOrganization";
 import OrganizationPage from "./pages/OrganizationPage";
 import Organization from "./pages/Organization";
 import CreateUser from "./pages/CreateUser";
 import UpdateUser from "./pages/UpdateUser";
+import React from "react";
 
 const Layout = ({ children }) => (
   <div className="flex">
@@ -51,7 +53,6 @@ const App = () => {
                 </Layout>
               }
             />
-
             <Route
               path="update-post/:postId"
               element={
@@ -60,38 +61,48 @@ const App = () => {
                 </Layout>
               }
             />
-            <Route
-              path="update-user/:userId"
-              element={
-                <Layout>
-                  <UpdateUser />
-                </Layout>
-              }
-            />
-            <Route
-              path="create-organization"
-              element={
-                <Layout>
-                  <CreateOrganization />
-                </Layout>
-              }
-            />
-            <Route
-              path="create-user"
-              element={
-                <Layout>
-                  <CreateUser />
-                </Layout>
-              }
-            />
-            <Route
-              path="update-organization/:organizationId"
-              element={
-                <Layout>
-                  <UpdateOrganization />
-                </Layout>
-              }
-            />
+            <React.Fragment>
+              <Route
+                path="update-user/:userId"
+                element={
+                  <Layout>
+                    <UpdateUser />
+                  </Layout>
+                }
+              />
+              <Route
+                path="create-organization"
+                element={
+                  <Layout>
+                    <CreateOrganization />
+                  </Layout>
+                }
+              />
+              <Route
+                path="create-user"
+                element={
+                  <Layout>
+                    <CreateUser />
+                  </Layout>
+                }
+              />
+              <Route
+                path="update-organization/:organizationId"
+                element={
+                  <Layout>
+                    <UpdateOrganization />
+                  </Layout>
+                }
+              />
+              <Route
+                path="edit-organization/"
+                element={
+                  <Layout>
+                    <UpdateUserOrganization />
+                  </Layout>
+                }
+              />
+            </React.Fragment>
           </Route>
         </Route>
 

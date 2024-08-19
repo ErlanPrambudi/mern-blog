@@ -12,26 +12,26 @@ const DashPosts = () => {
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState("");
   console.log(userPosts);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch(`/api/post/getPosts?userId=${currentUser._id}`);
-        const data = await res.json();
 
-        if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
-            setShowMore(false);
-          }
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch(`/api/post/getPosts?userId=${currentUser._id}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        setUserPosts(data.posts);
+        if (data.posts.length < 9) {
+          setShowMore(false);
         }
-      } catch (error) {
-        console.log(error);
       }
-    };
-    if (currentUser.isAdmin) {
-      fetchPosts();
+    } catch (error) {
+      console.log(error);
     }
-  }, [currentUser._id]);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
@@ -69,7 +69,7 @@ const DashPosts = () => {
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
       <h1 className="text-center text-3xl my-7 font-semibold">Posts</h1>
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {userPosts.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
@@ -147,9 +147,6 @@ const DashPosts = () => {
           </div>
         </Modal.Body>
       </Modal>
-
-      <h1 className="text-center text-3xl my-7 font-semibold">Organization</h1>
-      <DashOrganization />
     </div>
   );
 };

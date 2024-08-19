@@ -1,5 +1,5 @@
 import { Sidebar } from "flowbite-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiAnnotation, HiArrowSmRight, HiChartPie, HiDocumentText, HiOutlineUserGroup, HiUser } from "react-icons/hi";
 import { IoIosCreate } from "react-icons/io";
 import { IoMdCreate } from "react-icons/io";
@@ -46,35 +46,48 @@ const DashSidebar = () => {
               Profile
             </Sidebar.Item>
           </Link>
-          {currentUser.isAdmin && (
-            <>
-              <Link to="/dashboard?tab=users">
-                <Sidebar.Item active={tab === "users"} icon={HiOutlineUserGroup} as="div">
-                  Pengurus
+          <React.Fragment>
+            {currentUser.isAdmin && (
+              <React.Fragment>
+                <Link to="/dashboard?tab=create-organization">
+                  <Sidebar.Item active={tab === "create-organization"} icon={IoIosCreate} as="div">
+                    Create organization
+                  </Sidebar.Item>
+                </Link>
+                <Link to="/dashboard?tab=users">
+                  <Sidebar.Item active={tab === "users"} icon={HiOutlineUserGroup} as="div">
+                    Pengurus
+                  </Sidebar.Item>
+                </Link>
+              </React.Fragment>
+            )}
+            {currentUser.role === "pengurus" && (
+              <Link to="/dashboard?tab=edit-organization">
+                <Sidebar.Item active={tab === "edit-organization"} icon={HiDocumentText} as="div">
+                  Edit Organization
                 </Sidebar.Item>
               </Link>
-              <Link to="/dashboard?tab=comments">
-                <Sidebar.Item active={tab === "comments"} icon={HiAnnotation} as="div">
-                  Comments
-                </Sidebar.Item>
-              </Link>
-              <Link to="/dashboard?tab=posts">
-                <Sidebar.Item active={tab === "posts"} icon={HiDocumentText} as="div">
-                  All Posts
-                </Sidebar.Item>
-              </Link>
-              <Link to="/dashboard?tab=create-post">
-                <Sidebar.Item active={tab === "create-post"} icon={IoMdCreate} as="div">
-                  Create a post
-                </Sidebar.Item>
-              </Link>
-              <Link to="/dashboard?tab=create-organization">
-                <Sidebar.Item active={tab === "create-organization"} icon={IoIosCreate} as="div">
-                  Create organization
-                </Sidebar.Item>
-              </Link>
-            </>
-          )}
+            )}
+            {(currentUser.role === "admin" || currentUser.role === "pengurus") && (
+              <React.Fragment>
+                <Link to="/dashboard?tab=comments">
+                  <Sidebar.Item active={tab === "comments"} icon={HiAnnotation} as="div">
+                    Comments
+                  </Sidebar.Item>
+                </Link>
+                <Link to="/dashboard?tab=posts">
+                  <Sidebar.Item active={tab === "posts"} icon={HiDocumentText} as="div">
+                    All Posts
+                  </Sidebar.Item>
+                </Link>
+                <Link to="/dashboard?tab=create-post">
+                  <Sidebar.Item active={tab === "create-post"} icon={IoMdCreate} as="div">
+                    Create a post
+                  </Sidebar.Item>
+                </Link>
+              </React.Fragment>
+            )}
+          </React.Fragment>
           <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={handleSignout}>
             Sign Out
           </Sidebar.Item>

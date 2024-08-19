@@ -3,7 +3,7 @@ import { errorHandler } from "../utils/error.js"
 
 export const create = async (req, res, next) => {
 
-    if (!req.user.isAdmin) {
+    if (req.user.role === 'user') {
         return next(errorHandler(403, "You are not allowed to create a post"))
     }
     if (!req.body.title || !req.body.content) {
@@ -39,7 +39,6 @@ export const getposts = async (req, res, next) => {
                 ]
             }),
         }).sort({ updateAt: sortDirection }).skip(startIndex).limit(limit)
-        console.log(posts)
         const totalPosts = await Post.countDocuments()
 
         const now = new Date()
@@ -62,7 +61,7 @@ export const getposts = async (req, res, next) => {
 }
 
 export const deletepost = async (req, res, next) => {
-    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    if (req.user.role === 'user' || req.user.id !== req.params.userId) {
         return next(errorHandler(403, "You are not allowed to delete this post"))
     }
     try {
@@ -73,7 +72,7 @@ export const deletepost = async (req, res, next) => {
     }
 }
 export const updatepost = async (req, res, next) => {
-    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    if (req.user.role === 'user' || req.user.id !== req.params.userId) {
         return next(errorHandler(403, "You are not allowed to update this post"))
     }
     try {

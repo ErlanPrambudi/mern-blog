@@ -118,12 +118,13 @@ export const createUser = async (req, res, next) => {
         if (existingUser) {
             return next(errorHandler(400, 'User already exists'));
         }
+        const hashedPassword = bcryptjs.hashSync(password, 10)
 
         // Create new user
         const newUser = new User({
             username,
             email,
-            password, // Make sure to hash the password before saving in a real-world application
+            password: hashedPassword, // Make sure to hash the password before saving in a real-world application
             role,
             lembaga,
             profilePicture

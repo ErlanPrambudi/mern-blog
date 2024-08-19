@@ -9,10 +9,12 @@ import DashboardComp from "../components/DashboardComp";
 import CreatePost from "./CreatePost";
 import CreateOrganization from "./CreateOrganization";
 import CreateUser from "./CreateUser";
+import UpdateUserOrganization from "./UpdateUserOrganization";
 
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFormUrl = urlParams.get("tab");
@@ -37,6 +39,8 @@ const Dashboard = () => {
       {tab === "comments" && <DashComment />}
       {/* dashboard component */}
       {tab === "dash" && <DashboardComp />}
+      {/* Update Organization  */}
+      {tab === "edit-organization" && <UpdateUserOrganization />}
       {/* create post */}
       {tab === "create-post" && (
         <div className="flex-1 p-6 md:p-8 bg-gray-50 dark:bg-gray-900">
