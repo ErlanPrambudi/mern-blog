@@ -5,8 +5,10 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateUser = () => {
+const UpdateUser = () => {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
@@ -15,9 +17,29 @@ const CreateUser = () => {
   const [role, setRole] = useState("user");
   const [lembagaOptions, setLembagaOptions] = useState([]);
   const [selectedLembaga, setSelectedLembaga] = useState("");
+  const { userId } = useParams();
   const [successMessage, setSuccessMessage] = useState(null);
+  const { currentUser } = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`/api/user/getusers?userId=${userId}`);
+        const data = await response.json();
+        if (!response.ok) {
+          setPublishError(data.message);
+          return;
+        }
+        setFormData(data.users[0]);
+        setRole(data.users[0].role || "user");
+        setSelectedLembaga(data.users[0].lembaga?.id || "");
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
+    };
+
     const fetchLembagaOptions = async () => {
       try {
         const response = await fetch("/api/organization/getorganizations");
@@ -38,8 +60,10 @@ const CreateUser = () => {
         console.error("Failed to fetch lembaga data", error);
       }
     };
+
+    fetchUser();
     fetchLembagaOptions();
-  }, []);
+  }, [userId]);
 
   const handleUploadImage = async () => {
     try {
@@ -73,15 +97,15 @@ const CreateUser = () => {
     } catch (error) {
       setImageUploadError("Image Upload failed");
       setImageUploadProgress(null);
-      console.log(error);
+      console.error(error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/user/create", {
-        method: "POST",
+      const res = await fetch(`/api/user/update/${userId}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -92,21 +116,19 @@ const CreateUser = () => {
         setPublishError(data.message);
         return;
       }
-      if (res.ok) {
-        setPublishError(null);
-        setSuccessMessage("User successfully created!");
+      setPublishError(null);
+      setSuccessMessage("User successfully updated!");
 
-        // Mengosongkan input form setelah berhasil
-        setFormData({});
-        setFile(null);
-        setSelectedLembaga("");
-        setRole("user");
+      // Reset form state
+      setFormData({});
+      setFile(null);
+      setSelectedLembaga("");
+      setRole("user");
 
-        // Memuat ulang halaman setelah user berhasil dibuat
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000); // Menunggu 2 detik untuk memberikan waktu menampilkan pesan sukses
-      }
+      // Redirect to another page or refresh the current page
+      setTimeout(() => {
+        navigate("/dashboard?tab=users"); // Adjust navigation as needed
+      }, 2000); // Wait 2 seconds to display the success message
     } catch (error) {
       setPublishError("Something went wrong");
     }
@@ -165,7 +187,7 @@ const CreateUser = () => {
             <div className="flex flex-col gap-2 sm:flex-row justify-between items-center">
               <label className="font-bold w-full sm:w-1/4 text-left">Lembaga</label>
               <label className="font-bold hidden sm:block">: </label>
-              <Select value={selectedLembaga} onChange={(e) => setSelectedLembaga(e.target.value)} className="flex-1 w-full">
+              <Select value={selectedLembaga || ""} onChange={(e) => setSelectedLembaga(e.target.value)} className="flex-1 w-full">
                 <option value="">Select Lembaga</option>
                 {lembagaOptions.map((lembaga) => (
                   <option key={lembaga.id} value={lembaga.id}>
@@ -194,8 +216,8 @@ const CreateUser = () => {
         {formData.profilePicture && <img src={formData.profilePicture} className="w-28 h-28 mx-auto" alt="Uploaded" />}
 
         {/* Submit Button */}
-        <div className="flex justify-center my-2">
-          <Button type="submit" gradientDuoTone="tealToLime" className=" mt-2 sm:mt-2 w-full">
+        <div className="flex justify-center my-6">
+          <Button type="submit" gradientDuoTone="tealToLime" outline>
             Update User
           </Button>
         </div>
@@ -207,4 +229,4 @@ const CreateUser = () => {
   );
 };
 
-export default CreateUser;
+export default UpdateUser;
