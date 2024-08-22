@@ -52,7 +52,7 @@ export default function Header() {
     <Navbar className="border-b-2">
       <div className="mt-5">
         <Link to="/" className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white">
-          <span className="px-2 pt-2 py-1 bg-gradient-to-r from-teal-600 via-lime-500 to-lime-400 rounded-lg text-white">UKM~UTDI'</span>
+          <span className="px-2 pt-2 py-1 bg-gradient-to-r from-teal-600 via-lime-500 to-lime-400 rounded-lg text-white">HIMA UTDI</span>
         </Link>
       </div>
       <form onSubmit={handleSubmit}>

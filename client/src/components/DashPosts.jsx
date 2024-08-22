@@ -75,22 +75,28 @@ const DashPosts = () => {
             <Table.Head>
               <Table.HeadCell>Date Update</Table.HeadCell>
               <Table.HeadCell>Post image</Table.HeadCell>
+              {currentUser.isAdmin && <Table.HeadCell>userId</Table.HeadCell>}
               <Table.HeadCell>Post title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
-              <Table.HeadCell>
-                <span>Edit</span>
-              </Table.HeadCell>
+              <Table.HeadCell>Edit</Table.HeadCell>
             </Table.Head>
             {userPosts.map((post) => (
-              <Table.Body className="divide-y">
-                <Table.Row className=" bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Body className="divide-y" key={post._id}>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>
                     <Link to={`/post/${post.slug}`}>
                       <img src={post.image} alt={post.title} className="w-20 h-10 object-cover bg-gray-500" />
                     </Link>
                   </Table.Cell>
+                  {currentUser.isAdmin && (
+                    <Table.Cell>
+                      <Link className="font-medium text-gray-900 dark:text-white" to={`/post/${post.userId}`}>
+                        {post.userId}
+                      </Link>
+                    </Table.Cell>
+                  )}
                   <Table.Cell>
                     <Link className="font-medium text-gray-900 dark:text-white" to={`/post/${post.slug}`}>
                       {post.title}
@@ -111,7 +117,6 @@ const DashPosts = () => {
                       Delete
                     </span>
                   </Table.Cell>
-
                   <Table.Cell>
                     <Link className="text-teal-500 hover:underline" to={`/update-post/${post._id}`}>
                       <span>Edit</span>
@@ -135,10 +140,10 @@ const DashPosts = () => {
         <Modal.Body>
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
-            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to deleted this post ?</h3>
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to delete this post?</h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDeletePost}>
-                Yes, I'am sure
+                Yes, I'm sure
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
                 No, cancel

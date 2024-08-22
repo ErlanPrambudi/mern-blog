@@ -44,7 +44,7 @@ const SignUp = () => {
         {/* left */}
         <div className="flex-1">
           <Link to="/" className="font-bold dark:text-white text-4xl">
-            <span className="px-2 pt-2 py-1 bg-gradient-to-r from-teal-600 via-lime-500 to-lime-400 rounded-lg text-white">UKM~UTDI</span>
+            <span className="px-2 pt-2 py-1 bg-gradient-to-r from-teal-600 via-lime-500 to-lime-400 rounded-lg text-white">HIMA UTDI</span>
           </Link>
           <p className="text-sm mt-5">You can sign up with your email and password or with google</p>
         </div>

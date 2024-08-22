@@ -150,9 +150,6 @@ const CreateOrganization = () => {
             )}
           </form>
         </div>
-        {/* <div className="mt-4">
-        <DashOrganization />
-      </div> */}
       </div>
       <div className="mt-4">
         <DashOrganization />

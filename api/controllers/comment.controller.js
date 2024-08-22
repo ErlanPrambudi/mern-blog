@@ -74,7 +74,7 @@ export const deleteComment = async (req, res, next) => {
         if (!comment) {
             return next(errorHandler(404, "Command not found"))
         }
-        if (comment.userId !== req.user.id && !req.user.isAdmin) {
+        if (comment.userId !== req.user.id && !req.user.isAdmin && !req.user.role == "pengurus" && req.user.lembagaId === comment.lembagaId) {
             return next(errorHandler(403, "You are not allowed to edit this comment"))
         }
         await Comment.findByIdAndDelete(req.params.commentId)
@@ -85,7 +85,7 @@ export const deleteComment = async (req, res, next) => {
     }
 }
 export const getcomments = async (req, res, next) => {
-    if (!req.user.isAdmin) return next(errorHandler(403, "You are not allowed to get all comments"))
+    if (req.user.role === 'user') return next(errorHandler(403, "You are not allowed to get all comments"))
     try {
         const startIndex = parseInt(req.query.startIndex) || 0
         const limit = parseInt(req.query.limit) || 9

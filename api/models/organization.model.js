@@ -8,7 +8,6 @@ const organizationSchema = new mongoose.Schema(
         },
         namaLembaga: {
             type: String,
-            default: " ",
             unique: true,
 
         },

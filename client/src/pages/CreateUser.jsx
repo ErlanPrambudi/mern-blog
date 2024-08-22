@@ -156,7 +156,6 @@ const CreateUser = () => {
             >
               <option value="user">User</option>
               <option value="pengurus">Pengurus</option>
-              <option value="admin">Admin</option>
             </Select>
           </div>
 

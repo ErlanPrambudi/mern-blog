@@ -11,26 +11,25 @@ const DashComment = () => {
   const [showModal, setShowModal] = useState(false);
   const [commentIdToDelete, setCommentIdToDelete] = useState("");
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await fetch(`/api/comment/getcomments`);
-        const data = await res.json();
+  const fetchComments = async () => {
+    try {
+      const res = await fetch(`/api/comment/getcomments`);
+      const data = await res.json();
 
-        if (res.ok) {
-          setComments(data.comments);
-          if (data.comments.length < 9) {
-            setShowMore(false);
-          }
+      if (res.ok) {
+        setComments(data.comments);
+        if (data.comments.length < 9) {
+          setShowMore(false);
         }
-      } catch (error) {
-        console.log(error);
       }
-    };
-    if (currentUser.isAdmin) {
-      fetchComments();
+    } catch (error) {
+      console.log(error);
     }
-  }, [currentUser._id]);
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
   const handleShowMore = async () => {
     const startIndex = comments.length;
@@ -67,7 +66,7 @@ const DashComment = () => {
 
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
-      {currentUser.isAdmin && comments.length > 0 ? (
+      {comments.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
