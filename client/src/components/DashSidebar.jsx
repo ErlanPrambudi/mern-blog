@@ -56,7 +56,7 @@ const DashSidebar = () => {
                 </Link>
                 <Link to="/dashboard?tab=users">
                   <Sidebar.Item active={tab === "users"} icon={HiOutlineUserGroup} as="div">
-                    Pengurus
+                    Users
                   </Sidebar.Item>
                 </Link>
               </React.Fragment>
