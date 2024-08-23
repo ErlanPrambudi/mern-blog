@@ -6,7 +6,7 @@ import { store, persistor } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import ThemeProvider from "./components/ThemeProvider.jsx";
-import * as serviceWorker from "./service-worker.js";
+import * as serviceWorker from "../service-worker.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <PersistGate persistor={persistor}>
