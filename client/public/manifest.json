@@ -1,6 +1,6 @@
 {
     "name": "Unit Kegiatan Mahasiswa-UTDI",
-    "short_name": "UKM-UTDI",
+    "short_name": "ukm-UTDI",
     "description": "UKM-UTDI application to find various articles and various topics about SMEs at UTDI",
     "start_url": "/Home.jsx",
     "display": "standalone",
