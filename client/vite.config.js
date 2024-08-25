@@ -16,7 +16,7 @@ export default defineConfig({
     devOptions: {
       enabled: true
     },
-    // filename: "service-worker.js",
+    filename: "service-worker.js",
     strategies: "injectManifest",
     injectRegister: false,
     manifest: false,
