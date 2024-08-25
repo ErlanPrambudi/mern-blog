@@ -26,55 +26,55 @@
         {
             "purpose": "maskable",
             "sizes": "48x48",
-            "src": "maskable_icon_x48.png",
+            "src": "https://imgur.com/gCgUo4e",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
             "sizes": "72x72",
-            "src": "maskable_icon_x72.png",
+            "src": "https://imgur.com/C92QNSl",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
             "sizes": "96x96",
-            "src": "maskable_icon_x96.png",
+            "src": "https://imgur.com/C0FHfD5",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
             "sizes": "128x128",
-            "src": "maskable_icon_x128.png",
+            "src": "https://imgur.com/j5FTiUI",
             "type": "image/png"
         },
         {
             "purpose": "any",
             "sizes": "144x144",
-            "src": "maskable_icon_x144.png",
+            "src": "https://imgur.com/2eqqKTM",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
             "sizes": "192x192",
-            "src": "maskable_icon_x192.png",
+            "src": "https://imgur.com/yw430vE",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
             "sizes": "384x384",
-            "src": "maskable_icon_x384.png",
+            "src": "https://imgur.com/8wmcg8T",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
             "sizes": "512x512",
-            "src": "maskable_icon_x512.png",
+            "src": "https://imgur.com/bTtWsG8",
             "type": "image/png"
         },
         {
             "purpose": "maskable",
             "sizes": "530x530",
-            "src": "maskable_icon.png",
+            "src": "https://imgur.com/Y0bVbT9",
             "type": "image/png",
             "form_factor": "wide"
         }
