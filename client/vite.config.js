@@ -12,18 +12,27 @@ export default defineConfig({
       },
     },
   },
-  plugins: [react(), VitePWA({
-    devOptions: {
-      enabled: true
-    },
-    filename: "service-worker.js",
-    strategies: "injectManifest",
-    injectRegister: false,
-    manifest: false,
-    injectManifest: {
-      injectionPoint: null,
-    }
-  })],
+  plugins: [
+    react(),
+    VitePWA({
+      // injectRegister: 'auto',
+      // registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true
+      },
+      // workbox: {
+      //   globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+      // },
+      // srcDir: "public",
+      filename: "service-worker.js",
+      strategies: "injectManifest",
+      injectRegister: false,
+      manifest: false,
+      injectManifest: {
+        injectionPoint: null,
+      },
+    })
+  ],
 
 });
 
