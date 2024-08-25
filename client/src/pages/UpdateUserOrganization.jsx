@@ -17,7 +17,7 @@ const UpdateUserOrganization = () => {
   const [publishError, setPublishError] = useState(null);
   const { organizationId } = useParams();
   const { currentUser } = useSelector((state) => state.user);
-
+  console.log("FormData:", formData);
   const navigate = useNavigate();
 
   useEffect(() => {
