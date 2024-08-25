@@ -12,5 +12,19 @@ export default defineConfig({
       },
     },
   },
-  plugins: [react()],
+  plugins: [react(), VitePWA({
+    devOptions: {
+      enabled: true
+    },
+    filename: "service-worker.js",
+    strategies: "injectManifest",
+    injectRegister: false,
+    manifest: false,
+    injectManifest: {
+      injectionPoint: null,
+    }
+  })],
+
 });
+
+
