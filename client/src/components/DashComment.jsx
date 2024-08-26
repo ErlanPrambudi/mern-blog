@@ -1,19 +1,40 @@
 import { Modal, Table, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { FaCheck, FaTimes } from "react-icons/fa";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const DashComment = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [comments, setComments] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [commentIdToDelete, setCommentIdToDelete] = useState("");
+  const [commentIdToDelete, setCommentIdToDelete] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
+
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch(`/api/post/getPosts?userId=${currentUser._id}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        setUserPosts(data.posts);
+        if (data.posts.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, [currentUser._id]);
 
   const fetchComments = async () => {
     try {
-      const res = await fetch(`/api/comment/getcomments`);
+      const res = await fetch(`/api/comment/getCommentsByUser?userId=${currentUser._id}`);
       const data = await res.json();
 
       if (res.ok) {
@@ -29,12 +50,12 @@ const DashComment = () => {
 
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [currentUser._id]);
 
   const handleShowMore = async () => {
     const startIndex = comments.length;
     try {
-      const res = await fetch(`/api/comments/getcomments?startIndex=${startIndex}`);
+      const res = await fetch(`/api/comment/getCommentsByUser?userId=${currentUser._id}&startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
         setComments((prev) => [...prev, ...data.comments]);
@@ -56,48 +77,59 @@ const DashComment = () => {
       const data = await res.json();
       if (res.ok) {
         setComments((prev) => prev.filter((comment) => comment._id !== commentIdToDelete));
-        setShowModal(false);
       }
       console.log(data.message);
     } catch (error) {
       console.log(error);
     }
   };
-
+  // console.log(comments.username);
   return (
-    <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
+    <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {comments.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
               <Table.HeadCell>Comment content</Table.HeadCell>
-              <Table.HeadCell>PostId</Table.HeadCell>
-              <Table.HeadCell>UserId</Table.HeadCell>
+              <Table.HeadCell>Post Title</Table.HeadCell>
+              <Table.HeadCell>Username</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
-            {comments.map((comment) => (
-              <Table.Body className="divide-y" key={comment._id}>
-                <Table.Row className=" bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>{new Date(comment.updatedAt).toLocaleDateString()}</Table.Cell>
-                  <Table.Cell>{comment.content}</Table.Cell>
-                  <Table.Cell>{comment.postId}</Table.Cell>
-                  <Table.Cell>{comment.userId}</Table.Cell>
+            <Table.Body className="divide-y">
+              {comments.map((comment) => {
+                const post = userPosts.find((post) => post._id === comment.postId);
 
-                  <Table.Cell>
-                    <span
-                      onClick={() => {
-                        setShowModal(true);
-                        setCommentIdToDelete(comment._id);
-                      }}
-                      className="font-md text-red-500 hover:underline cursor-pointer"
-                    >
-                      Delete
-                    </span>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            ))}
+                return (
+                  <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={comment._id}>
+                    <Table.Cell>{new Date(comment.updatedAt).toLocaleDateString()}</Table.Cell>
+                    <Table.Cell>{comment.content}</Table.Cell>
+                    <Table.Cell>
+                      {post ? (
+                        <Link className="font-medium text-gray-900 dark:text-white" to={`/post/${post.slug}`}>
+                          {post.title}
+                        </Link>
+                      ) : (
+                        "Post not found"
+                      )}
+                    </Table.Cell>
+                    {/* // Contoh: Periksa apakah comment.userId sudah memuat username */}
+                    <Table.Cell>{comment.userId ? comment.userId.username : "Username not available"}</Table.Cell>
+                    <Table.Cell>
+                      <span
+                        onClick={() => {
+                          setShowModal(true);
+                          setCommentIdToDelete(comment._id);
+                        }}
+                        className="font-md text-red-500 hover:underline cursor-pointer"
+                      >
+                        Delete
+                      </span>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+            </Table.Body>
           </Table>
           {showMore && (
             <button onClick={handleShowMore} className="w-full text-teal-500 self-center text-sm py-7">
@@ -113,10 +145,10 @@ const DashComment = () => {
         <Modal.Body>
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
-            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to deleted this comment ?</h3>
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to delete this comment?</h3>
             <div className="flex justify-center gap-4">
               <Button color="failure" onClick={handleDeleteComment}>
-                Yes, I'am sure
+                Yes, I'm sure
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
                 No, cancel
